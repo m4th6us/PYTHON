@@ -19,14 +19,11 @@ data_venda,
 status
 FROM vendas
 ''')
+
 query = cur.fetchall()
-results = []
 
-for i in query:
-    results.append(i)
-
-df_query = pd.DataFrame(results)
+df_query = pd.DataFrame(query)
 
 df_query.columns = ['idvenda','bruto','desconto_porcent','liquido','data_venda','status']
 
-df_query.to_csv('results.csv', index=False)
+df_query.to_csv('vendas.csv', index=False, sep=',')

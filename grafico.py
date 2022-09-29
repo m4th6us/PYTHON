@@ -35,3 +35,4 @@ quantidade = df_query['vendas']
 
 #criando o gráfico
 fig = px.bar(x = data, y = quantidade, title = 'Vendas X Mês', height = 850, width = 1000)
+ 
