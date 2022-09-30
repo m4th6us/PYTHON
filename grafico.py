@@ -14,10 +14,13 @@ conn = pg.connect(
 #criando um cursor para executar comando sql
 cur = conn.cursor()
 
-cur.execute('''SELECT 
+where = int(input('Qual mes:'))
+
+cur.execute(f'''SELECT 
 count(*) as Vendas,
 extract(month from data_venda) as data_venda
 FROM vendas
+WHERE extract(month from data_venda) = {where}
 group by extract(month from data_venda)
 order by 2
 ''')
@@ -25,14 +28,8 @@ order by 2
 #guardando os resultados em uma lista
 query = cur.fetchall()
 
-# Criando um dataframe com as informações do select
-df_query = pd.DataFrame(query)
-df_query.columns = ['vendas','data_venda']
-
-#pegando colunas específicas do dataframe para a criação do gráfico
-data = df_query['data_venda']
-quantidade = df_query['vendas']
+dicionario = dict(query)
 
 #criando o gráfico
-fig = px.bar(x = data, y = quantidade, title = 'Vendas X Mês', height = 850, width = 1000)
- 
+fig = px.line(x = dicionario , y = dicionario.keys(), title = 'Vendas X Mês', height = 850, width = 1000)
+fig.show()
