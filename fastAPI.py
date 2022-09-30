@@ -41,16 +41,16 @@ def pega_data(data: int):
 @app.get("/Grafico/{data}")
 def mostra_grafico(data: int):
     cur.execute(f'''SELECT
-    extract(month from data_venda) as data_venda,
+    extract(day from data_venda) as data_venda,
     count(*) as Vendas
     FROM vendas
     where extract(month from data_venda) = {data}
-    group by extract(month from data_venda)
+    group by extract(day from data_venda)
     order by 2
     ''')
     query = cur.fetchall()
     #gera o dict
     dicionario = dict(query)
     #grafico
-    fig = px.bar(x = dicionario , y = dicionario.keys(), title = 'Vendas x Mês', height = 850, width = 1000)
+    fig = px.bar(x = dicionario.keys() , y = dicionario, title = 'Vendas x Mês', height = 850, width = 1000)
     return fig.show()
